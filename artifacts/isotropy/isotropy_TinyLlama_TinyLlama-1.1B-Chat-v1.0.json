@@ -1,0 +1,44 @@
+{
+  "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "layer": 11,
+  "d": 2048,
+  "n": 2000,
+  "n_pairs": 20000,
+  "eps_iso": 60.432456970214844,
+  "tr_S": 0.9994999766349792,
+  "rows": [
+    {
+      "k": 32,
+      "kind": "random",
+      "tr_PS": 0.015493487939238548,
+      "expected": 0.015625,
+      "band": 0.9442571401596069,
+      "within": true
+    },
+    {
+      "k": 64,
+      "kind": "random",
+      "tr_PS": 0.03118062950670719,
+      "expected": 0.03125,
+      "band": 1.8885142803192139,
+      "within": true
+    },
+    {
+      "k": 128,
+      "kind": "random",
+      "tr_PS": 0.06342907249927521,
+      "expected": 0.0625,
+      "band": 3.7770285606384277,
+      "within": true
+    },
+    {
+      "k": 256,
+      "kind": "random",
+      "tr_PS": 0.12489595264196396,
+      "expected": 0.125,
+      "band": 7.5540571212768555,
+      "within": true
+    }
+  ],
+  "elapsed_s": 459.2950990200043
+}

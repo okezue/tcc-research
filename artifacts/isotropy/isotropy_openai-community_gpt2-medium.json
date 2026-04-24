@@ -1,0 +1,44 @@
+{
+  "model": "openai-community/gpt2-medium",
+  "layer": 12,
+  "d": 1024,
+  "n": 2000,
+  "n_pairs": 20000,
+  "eps_iso": 34.32611846923828,
+  "tr_S": 0.9994999766349792,
+  "rows": [
+    {
+      "k": 32,
+      "kind": "random",
+      "tr_PS": 0.030703026801347733,
+      "expected": 0.03125,
+      "band": 1.0726912021636963,
+      "within": true
+    },
+    {
+      "k": 64,
+      "kind": "random",
+      "tr_PS": 0.06067151576280594,
+      "expected": 0.0625,
+      "band": 2.1453824043273926,
+      "within": true
+    },
+    {
+      "k": 128,
+      "kind": "random",
+      "tr_PS": 0.12407636642456055,
+      "expected": 0.125,
+      "band": 4.290764808654785,
+      "within": true
+    },
+    {
+      "k": 256,
+      "kind": "random",
+      "tr_PS": 0.24975775182247162,
+      "expected": 0.25,
+      "band": 8.58152961730957,
+      "within": true
+    }
+  ],
+  "elapsed_s": 35.332377433776855
+}

@@ -1,0 +1,44 @@
+{
+  "model": "mistralai/Mistral-7B-v0.1",
+  "layer": 16,
+  "d": 4096,
+  "n": 2000,
+  "n_pairs": 20000,
+  "eps_iso": 107.916015625,
+  "tr_S": 0.9999995231628418,
+  "rows": [
+    {
+      "k": 32,
+      "kind": "random",
+      "tr_PS": 0.007744396571069956,
+      "expected": 0.0078125,
+      "band": 0.8430938720703125,
+      "within": true
+    },
+    {
+      "k": 64,
+      "kind": "random",
+      "tr_PS": 0.015489761717617512,
+      "expected": 0.015625,
+      "band": 1.686187744140625,
+      "within": true
+    },
+    {
+      "k": 128,
+      "kind": "random",
+      "tr_PS": 0.03148875758051872,
+      "expected": 0.03125,
+      "band": 3.37237548828125,
+      "within": true
+    },
+    {
+      "k": 256,
+      "kind": "random",
+      "tr_PS": 0.062381990253925323,
+      "expected": 0.0625,
+      "band": 6.7447509765625,
+      "within": true
+    }
+  ],
+  "elapsed_s": 46.88266396522522
+}

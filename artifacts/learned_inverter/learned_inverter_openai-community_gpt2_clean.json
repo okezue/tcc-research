@@ -1,0 +1,55 @@
+{
+  "model": "openai-community/gpt2",
+  "layer": 6,
+  "d": 768,
+  "ctx": 32,
+  "n_train": 200,
+  "n_test": 50,
+  "steps": 20,
+  "train_corrupt": "clean",
+  "train_sigma": 1.0,
+  "n_params": 8591953,
+  "train_log": [
+    {
+      "step": 0,
+      "loss": 90.20716094970703
+    },
+    {
+      "step": 19,
+      "loss": 59.772464752197266
+    }
+  ],
+  "eval": [
+    {
+      "mech": "clean",
+      "sigma": 0.0,
+      "exact_match": 0.0,
+      "tok_acc": 0.0
+    },
+    {
+      "mech": "iso",
+      "sigma": 1.0,
+      "exact_match": 0.0,
+      "tok_acc": 0.0
+    },
+    {
+      "mech": "complement",
+      "sigma": 1.0,
+      "exact_match": 0.0,
+      "tok_acc": 0.0
+    },
+    {
+      "mech": "gen_eigen",
+      "sigma": 1.0,
+      "exact_match": 0.0,
+      "tok_acc": 0.0
+    },
+    {
+      "mech": "mah",
+      "sigma": 1.0,
+      "exact_match": 0.0,
+      "tok_acc": 0.0
+    }
+  ],
+  "elapsed_s": 154.284658908844
+}

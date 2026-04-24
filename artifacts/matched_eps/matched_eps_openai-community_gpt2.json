@@ -1,0 +1,117 @@
+{
+  "model": "openai-community/gpt2",
+  "layer": 6,
+  "d": 768,
+  "delta": 1e-06,
+  "rows": [
+    {
+      "mech": "isotropic",
+      "eps_target": 1.0,
+      "c": 236411.56251417444,
+      "kl": 14.06617471575737,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "isotropic",
+      "eps_target": 3.0,
+      "c": 31518.55353690975,
+      "kl": 12.869238048791885,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "isotropic",
+      "eps_target": 8.0,
+      "c": 4825.42598523984,
+      "kl": 10.150527261197567,
+      "l2_top1": 0.006,
+      "mah_top1": 0.006,
+      "best_top1": 0.006
+    },
+    {
+      "mech": "isotropic",
+      "eps_target": 16.0,
+      "c": 1437.6256835232518,
+      "kl": 7.871203940361738,
+      "l2_top1": 0.036,
+      "mah_top1": 0.036,
+      "best_top1": 0.036
+    },
+    {
+      "mech": "fisher_diag_inv",
+      "eps_target": 1.0,
+      "c": 15.203621702723927,
+      "kl": 13.137451946735382,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "fisher_diag_inv",
+      "eps_target": 3.0,
+      "c": 2.0269573936913345,
+      "kl": 12.039375253021717,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "fisher_diag_inv",
+      "eps_target": 8.0,
+      "c": 0.31032302504105214,
+      "kl": 9.641646936535835,
+      "l2_top1": 0.006,
+      "mah_top1": 0.002,
+      "best_top1": 0.006
+    },
+    {
+      "mech": "fisher_diag_inv",
+      "eps_target": 16.0,
+      "c": 0.09245367193534347,
+      "kl": 7.560218226164579,
+      "l2_top1": 0.02,
+      "mah_top1": 0.022,
+      "best_top1": 0.022
+    },
+    {
+      "mech": "mahalanobis_opt",
+      "eps_target": 1.0,
+      "c": 8278.913370917635,
+      "kl": 13.510912120342255,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "mahalanobis_opt",
+      "eps_target": 3.0,
+      "c": 1103.7504745270671,
+      "kl": 12.593464240431786,
+      "l2_top1": 0.0,
+      "mah_top1": 0.0,
+      "best_top1": 0.0
+    },
+    {
+      "mech": "mahalanobis_opt",
+      "eps_target": 8.0,
+      "c": 168.98193677468836,
+      "kl": 10.39808963239193,
+      "l2_top1": 0.0,
+      "mah_top1": 0.01,
+      "best_top1": 0.01
+    },
+    {
+      "mech": "mahalanobis_opt",
+      "eps_target": 16.0,
+      "c": 50.34431635712255,
+      "kl": 8.16756972298026,
+      "l2_top1": 0.002,
+      "mah_top1": 0.038,
+      "best_top1": 0.038
+    }
+  ],
+  "elapsed_s": 163.5736494064331
+}

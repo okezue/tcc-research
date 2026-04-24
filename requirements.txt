@@ -1,0 +1,9 @@
+torch>=2.1
+transformers>=4.40
+datasets>=2.18
+numpy
+scipy
+opacus>=1.4
+cvxpy>=1.4
+faiss-cpu>=1.7
+matplotlib

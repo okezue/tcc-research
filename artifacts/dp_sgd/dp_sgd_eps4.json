@@ -1,0 +1,10 @@
+{
+  "model": "openai-community/gpt2",
+  "target_eps": 4.0,
+  "delta": 1e-06,
+  "actual_eps": 3.9950783913828847,
+  "n_train": 8000,
+  "epochs": 3,
+  "held_out_retrieval_top1": 1.0,
+  "elapsed_s": 81.71505308151245
+}

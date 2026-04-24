@@ -1,0 +1,44 @@
+{
+  "model": "microsoft/phi-2",
+  "layer": 16,
+  "d": 2560,
+  "n": 2000,
+  "n_pairs": 20000,
+  "eps_iso": 83.47506713867188,
+  "tr_S": 0.9999998807907104,
+  "rows": [
+    {
+      "k": 32,
+      "kind": "random",
+      "tr_PS": 0.01232909969985485,
+      "expected": 0.0125,
+      "band": 1.0434383392333986,
+      "within": true
+    },
+    {
+      "k": 64,
+      "kind": "random",
+      "tr_PS": 0.025087907910346985,
+      "expected": 0.025,
+      "band": 2.086876678466797,
+      "within": true
+    },
+    {
+      "k": 128,
+      "kind": "random",
+      "tr_PS": 0.0500665158033371,
+      "expected": 0.05,
+      "band": 4.173753356933594,
+      "within": true
+    },
+    {
+      "k": 256,
+      "kind": "random",
+      "tr_PS": 0.10029502958059311,
+      "expected": 0.1,
+      "band": 8.347506713867189,
+      "within": true
+    }
+  ],
+  "elapsed_s": 33.388479709625244
+}

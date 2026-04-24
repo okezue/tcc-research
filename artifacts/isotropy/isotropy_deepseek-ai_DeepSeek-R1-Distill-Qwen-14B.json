@@ -1,0 +1,44 @@
+{
+  "model": "deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",
+  "layer": 24,
+  "d": 5120,
+  "n": 2000,
+  "n_pairs": 20000,
+  "eps_iso": 225.56776428222656,
+  "tr_S": 0.9999998807907104,
+  "rows": [
+    {
+      "k": 32,
+      "kind": "random",
+      "tr_PS": 0.006358406972140074,
+      "expected": 0.00625,
+      "band": 1.4097985267639161,
+      "within": true
+    },
+    {
+      "k": 64,
+      "kind": "random",
+      "tr_PS": 0.012378926388919353,
+      "expected": 0.0125,
+      "band": 2.8195970535278323,
+      "within": true
+    },
+    {
+      "k": 128,
+      "kind": "random",
+      "tr_PS": 0.025396328419446945,
+      "expected": 0.025,
+      "band": 5.639194107055665,
+      "within": true
+    },
+    {
+      "k": 256,
+      "kind": "random",
+      "tr_PS": 0.050116825848817825,
+      "expected": 0.05,
+      "band": 11.27838821411133,
+      "within": true
+    }
+  ],
+  "elapsed_s": 69.54162979125977
+}
