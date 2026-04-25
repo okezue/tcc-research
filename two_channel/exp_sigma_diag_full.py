@@ -79,7 +79,7 @@ def worst_mahal_diag(deltas,s):
     q=(deltas*deltas)@inv
     return q.max().item(),q.mean().item(),float(q.quantile(0.95).item())
 
-def mahal_retrieval_top1(H_query_clean,H_bank_full,gt_idx,s,sigma_scale,seed=0,bsz=64):
+def mahal_retrieval_top1(H_query_clean,H_bank_full,gt_idx,s,sigma_scale,seed=0,bsz=64,return_mrr=False):
     g=torch.Generator().manual_seed(seed)
     noise=torch.randn(H_query_clean.shape,generator=g)*s.sqrt()*sigma_scale
     Hq_noisy=H_query_clean+noise
@@ -115,6 +115,7 @@ def main():
     ap.add_argument("--alphas",type=str,default="0,0.25,0.5,0.75,1.0,1.25,1.5")
     ap.add_argument("--kappas",type=str,default="0.3,1,3,7")
     ap.add_argument("--sigma_scale",type=float,default=1.0,help="multiplicative noise scale on sqrt(s)")
+    ap.add_argument("--seeds",type=str,default="0,1,2",help="comma-separated seeds for adjacency+noise")
     ap.add_argument("--out_dir",default="artifacts/sigma_diag_validate")
     ap.add_argument("--dtype",default="bfloat16")
     a=ap.parse_args()
@@ -134,6 +135,7 @@ def main():
     layers=[int(x) for x in a.layers.split(",")]
     alphas=[float(x) for x in a.alphas.split(",")]
     kappas=[float(x) for x in a.kappas.split(",")]
+    seeds=[int(x) for x in a.seeds.split(",")]
     for L in layers:
         t0=time.time()
         print(f"\n=== layer {L} ===")
@@ -144,18 +146,21 @@ def main():
         H_query=embed_bank(model,blk,query_pref,dev)
         H_bank=torch.cat([H_query,H_bank_distract[:max(0,a.n_bank-a.n_query)]],dim=0)
         gt_idx=torch.arange(a.n_query,dtype=torch.long)
-        print(f"  building adjacency 4x{a.n_each_adj}")
-        deltas,sizes=build_full_adjacency(model,tok,blk,adj_pref,dev,n_each=a.n_each_adj,k_alt=256)
-        print(f"  adjacency: {deltas.shape}, sizes={sizes}")
         rows=[]
-        for al in alphas:
-            for kp in kappas:
-                s=build_diag_sigma(F_diag,al,kp)
-                wm,mn,p95=worst_mahal_diag(deltas,s)
-                top1=mahal_retrieval_top1(H_query,H_bank,gt_idx,s,a.sigma_scale)
-                rows.append(dict(alpha=al,kappa=kp,worst_mahal=wm,mean_mahal=mn,p95_mahal=p95,retrieval_top1=top1,trF_s=(F_diag*s).sum().item()))
-                print(f"  α={al:.2f} κ={kp:.2f} worst={wm:.2f} top1={top1:.3f}")
-        out=dict(model=a.model,layer=L,d=int(F_diag.numel()),n_cal=a.n_cal,n_bank=a.n_bank,n_query=a.n_query,n_each_adj=a.n_each_adj,adj_sizes=sizes,F_diag_sum=float(F_diag.sum()),F_diag_max=float(F_diag.max()),sigma_scale=a.sigma_scale,rows=rows,elapsed_s=time.time()-t0)
+        for sd in seeds:
+            torch.manual_seed(sd)
+            print(f"  -- seed {sd} --")
+            print(f"  building adjacency 4x{a.n_each_adj}")
+            deltas,sizes=build_full_adjacency(model,tok,blk,adj_pref,dev,n_each=a.n_each_adj,k_alt=256)
+            for al in alphas:
+                for kp in kappas:
+                    s=build_diag_sigma(F_diag,al,kp)
+                    wm,mn,p95=worst_mahal_diag(deltas,s)
+                    top1=mahal_retrieval_top1(H_query,H_bank,gt_idx,s,a.sigma_scale,seed=sd)
+                    rows.append(dict(seed=sd,alpha=al,kappa=kp,worst_mahal=wm,mean_mahal=mn,p95_mahal=p95,retrieval_top1=top1,trF_s=(F_diag*s).sum().item()))
+                    if sd==seeds[0]:
+                        print(f"    α={al:.2f} κ={kp:.2f} worst={wm:.2f} top1={top1:.3f}")
+        out=dict(model=a.model,layer=L,d=int(F_diag.numel()),n_cal=a.n_cal,n_bank=a.n_bank,n_query=a.n_query,n_each_adj=a.n_each_adj,seeds=seeds,F_diag_sum=float(F_diag.sum()),F_diag_max=float(F_diag.max()),sigma_scale=a.sigma_scale,rows=rows,elapsed_s=time.time()-t0)
         slug=a.model.replace("/","_")
         with open(os.path.join(a.out_dir,f"sigma_diag_{slug}_L{L}.json"),"w") as f:
             json.dump(out,f,indent=2)
