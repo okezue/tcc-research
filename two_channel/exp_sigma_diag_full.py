@@ -79,24 +79,24 @@ def worst_mahal_diag(deltas,s):
     q=(deltas*deltas)@inv
     return q.max().item(),q.mean().item(),float(q.quantile(0.95).item())
 
-def mahal_retrieval_top1(H_query_clean,H_bank,s,sigma_scale,n_query,seed=0,bsz=128):
+def mahal_retrieval_top1(H_query_clean,H_bank_full,gt_idx,s,sigma_scale,seed=0,bsz=128):
     torch.manual_seed(seed)
-    Hq=H_query_clean[:n_query]
-    noise=torch.randn(Hq.shape,generator=torch.Generator().manual_seed(seed))*s.sqrt()*sigma_scale
-    Hq_noisy=Hq+noise
+    g=torch.Generator().manual_seed(seed)
+    noise=torch.randn(H_query_clean.shape,generator=g)*s.sqrt()*sigma_scale
+    Hq_noisy=H_query_clean+noise
     inv=1.0/s
     correct=0
-    N=Hq.shape[0]
-    Bk=H_bank.shape[0]
-    H_bank_dev=H_bank.cuda() if torch.cuda.is_available() else H_bank
+    N=H_query_clean.shape[0]
+    H_bank_dev=H_bank_full.cuda() if torch.cuda.is_available() else H_bank_full
     Hq_dev=Hq_noisy.cuda() if torch.cuda.is_available() else Hq_noisy
     inv_dev=inv.cuda() if torch.cuda.is_available() else inv
+    gt_dev=gt_idx.cuda() if torch.cuda.is_available() else gt_idx
     for i in range(0,N,bsz):
         q=Hq_dev[i:i+bsz]
         diff=q.unsqueeze(1)-H_bank_dev.unsqueeze(0)
         dist=(diff*diff*inv_dev).sum(-1)
         idx=dist.argmin(dim=-1)
-        correct+=(idx==torch.arange(i,min(i+bsz,N),device=idx.device)).sum().item()
+        correct+=(idx==gt_dev[i:i+bsz]).sum().item()
     return correct/N
 
 def main():
@@ -136,8 +136,10 @@ def main():
         blk=get_layer_block(model,L)
         F_diag=compute_F_diag(model,blk,cal_pref,dev,n_cal=a.n_cal)
         print(f"  tr(F_diag)={F_diag.sum():.4f}")
-        H_bank=embed_bank(model,blk,bank_pref,dev)
+        H_bank_distract=embed_bank(model,blk,bank_pref,dev)
         H_query=embed_bank(model,blk,query_pref,dev)
+        H_bank=torch.cat([H_query,H_bank_distract[:max(0,a.n_bank-a.n_query)]],dim=0)
+        gt_idx=torch.arange(a.n_query,dtype=torch.long)
         print(f"  building adjacency 4x{a.n_each_adj}")
         deltas,sizes=build_full_adjacency(model,tok,blk,adj_pref,dev,n_each=a.n_each_adj,k_alt=256)
         print(f"  adjacency: {deltas.shape}, sizes={sizes}")
@@ -146,7 +148,7 @@ def main():
             for kp in kappas:
                 s=build_diag_sigma(F_diag,al,kp)
                 wm,mn,p95=worst_mahal_diag(deltas,s)
-                top1=mahal_retrieval_top1(H_query,H_bank,s,a.sigma_scale,a.n_query)
+                top1=mahal_retrieval_top1(H_query,H_bank,gt_idx,s,a.sigma_scale)
                 rows.append(dict(alpha=al,kappa=kp,worst_mahal=wm,mean_mahal=mn,p95_mahal=p95,retrieval_top1=top1,trF_s=(F_diag*s).sum().item()))
                 print(f"  α={al:.2f} κ={kp:.2f} worst={wm:.2f} top1={top1:.3f}")
         out=dict(model=a.model,layer=L,d=int(F_diag.numel()),n_cal=a.n_cal,n_bank=a.n_bank,n_query=a.n_query,n_each_adj=a.n_each_adj,adj_sizes=sizes,F_diag_sum=float(F_diag.sum()),F_diag_max=float(F_diag.max()),sigma_scale=a.sigma_scale,rows=rows,elapsed_s=time.time()-t0)
