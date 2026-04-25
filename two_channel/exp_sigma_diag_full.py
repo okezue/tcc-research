@@ -79,22 +79,26 @@ def worst_mahal_diag(deltas,s):
     q=(deltas*deltas)@inv
     return q.max().item(),q.mean().item(),float(q.quantile(0.95).item())
 
-def mahal_retrieval_top1(H_query_clean,H_bank_full,gt_idx,s,sigma_scale,seed=0,bsz=128):
-    torch.manual_seed(seed)
+def mahal_retrieval_top1(H_query_clean,H_bank_full,gt_idx,s,sigma_scale,seed=0,bsz=64):
     g=torch.Generator().manual_seed(seed)
     noise=torch.randn(H_query_clean.shape,generator=g)*s.sqrt()*sigma_scale
     Hq_noisy=H_query_clean+noise
     inv=1.0/s
+    dev="cuda" if torch.cuda.is_available() else "cpu"
+    H_bank_dev=H_bank_full.to(dev)
+    Hq_dev=Hq_noisy.to(dev)
+    inv_dev=inv.to(dev)
+    gt_dev=gt_idx.to(dev)
+    Cw=H_bank_dev*inv_dev
+    c_norm=(H_bank_dev*Cw).sum(-1)
     correct=0
-    N=H_query_clean.shape[0]
-    H_bank_dev=H_bank_full.cuda() if torch.cuda.is_available() else H_bank_full
-    Hq_dev=Hq_noisy.cuda() if torch.cuda.is_available() else Hq_noisy
-    inv_dev=inv.cuda() if torch.cuda.is_available() else inv
-    gt_dev=gt_idx.cuda() if torch.cuda.is_available() else gt_idx
+    N=Hq_dev.shape[0]
     for i in range(0,N,bsz):
         q=Hq_dev[i:i+bsz]
-        diff=q.unsqueeze(1)-H_bank_dev.unsqueeze(0)
-        dist=(diff*diff*inv_dev).sum(-1)
+        qw=q*inv_dev
+        q_norm=(q*qw).sum(-1)
+        cross=qw@H_bank_dev.T
+        dist=q_norm.unsqueeze(1)+c_norm.unsqueeze(0)-2*cross
         idx=dist.argmin(dim=-1)
         correct+=(idx==gt_dev[i:i+bsz]).sum().item()
     return correct/N
