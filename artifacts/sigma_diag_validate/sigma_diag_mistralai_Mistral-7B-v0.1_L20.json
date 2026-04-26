@@ -1,0 +1,860 @@
+{
+  "model": "mistralai/Mistral-7B-v0.1",
+  "layer": 20,
+  "d": 4096,
+  "n_cal": 300,
+  "n_bank": 50000,
+  "n_query": 2000,
+  "n_each_adj": 5000,
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "F_diag_sum": 5.541262149810791,
+  "F_diag_max": 0.011989508755505085,
+  "sigma_scale": 1.0,
+  "rows": [
+    {
+      "seed": 0,
+      "alpha": 0.0,
+      "kappa": 0.3,
+      "worst_mahal": 1226435.625,
+      "mean_mahal": 882.20703125,
+      "p95_mahal": 2236.482666015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 0,
+      "alpha": 0.0,
+      "kappa": 1.0,
+      "worst_mahal": 367930.71875,
+      "mean_mahal": 264.662109375,
+      "p95_mahal": 670.9447631835938,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 0,
+      "alpha": 0.0,
+      "kappa": 3.0,
+      "worst_mahal": 122643.6015625,
+      "mean_mahal": 88.22069549560547,
+      "p95_mahal": 223.6482391357422,
+      "retrieval_top1": 0.9985,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.0,
+      "kappa": 7.0,
+      "worst_mahal": 52561.54296875,
+      "mean_mahal": 37.808868408203125,
+      "p95_mahal": 95.84925079345703,
+      "retrieval_top1": 0.965,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.25,
+      "kappa": 0.3,
+      "worst_mahal": 869837.0,
+      "mean_mahal": 737.1832885742188,
+      "p95_mahal": 2245.969482421875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 0,
+      "alpha": 0.25,
+      "kappa": 1.0,
+      "worst_mahal": 260951.140625,
+      "mean_mahal": 221.15499877929688,
+      "p95_mahal": 673.791015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.25,
+      "kappa": 3.0,
+      "worst_mahal": 86983.7109375,
+      "mean_mahal": 73.71833038330078,
+      "p95_mahal": 224.59698486328125,
+      "retrieval_top1": 0.9985,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.25,
+      "kappa": 7.0,
+      "worst_mahal": 37278.72265625,
+      "mean_mahal": 31.59356689453125,
+      "p95_mahal": 96.25585174560547,
+      "retrieval_top1": 0.964,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.5,
+      "kappa": 0.3,
+      "worst_mahal": 621886.875,
+      "mean_mahal": 643.0039672851562,
+      "p95_mahal": 2294.9619140625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000834465027
+    },
+    {
+      "seed": 0,
+      "alpha": 0.5,
+      "kappa": 1.0,
+      "worst_mahal": 186566.03125,
+      "mean_mahal": 192.90121459960938,
+      "p95_mahal": 688.48876953125,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.000000476837158
+    },
+    {
+      "seed": 0,
+      "alpha": 0.5,
+      "kappa": 3.0,
+      "worst_mahal": 62188.671875,
+      "mean_mahal": 64.3004150390625,
+      "p95_mahal": 229.49623107910156,
+      "retrieval_top1": 0.9985,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 0,
+      "alpha": 0.5,
+      "kappa": 7.0,
+      "worst_mahal": 26652.2890625,
+      "mean_mahal": 27.557315826416016,
+      "p95_mahal": 98.35552978515625,
+      "retrieval_top1": 0.9655,
+      "trF_s": 14.000001907348633
+    },
+    {
+      "seed": 0,
+      "alpha": 0.75,
+      "kappa": 0.3,
+      "worst_mahal": 449135.125,
+      "mean_mahal": 587.09033203125,
+      "p95_mahal": 2384.1533203125,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 0,
+      "alpha": 0.75,
+      "kappa": 1.0,
+      "worst_mahal": 134740.609375,
+      "mean_mahal": 176.1271514892578,
+      "p95_mahal": 715.2461547851562,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 0,
+      "alpha": 0.75,
+      "kappa": 3.0,
+      "worst_mahal": 44913.53125,
+      "mean_mahal": 58.709041595458984,
+      "p95_mahal": 238.41537475585938,
+      "retrieval_top1": 0.999,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 0,
+      "alpha": 0.75,
+      "kappa": 7.0,
+      "worst_mahal": 19248.6640625,
+      "mean_mahal": 25.1610164642334,
+      "p95_mahal": 102.17802429199219,
+      "retrieval_top1": 0.9675,
+      "trF_s": 14.000000953674316
+    },
+    {
+      "seed": 0,
+      "alpha": 1.0,
+      "kappa": 0.3,
+      "worst_mahal": 329050.96875,
+      "mean_mahal": 562.4535522460938,
+      "p95_mahal": 2529.888916015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 0,
+      "alpha": 1.0,
+      "kappa": 1.0,
+      "worst_mahal": 98715.296875,
+      "mean_mahal": 168.73606872558594,
+      "p95_mahal": 758.9666137695312,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.0,
+      "kappa": 3.0,
+      "worst_mahal": 32905.09765625,
+      "mean_mahal": 56.24535369873047,
+      "p95_mahal": 252.98890686035156,
+      "retrieval_top1": 0.999,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.0,
+      "kappa": 7.0,
+      "worst_mahal": 14102.1787109375,
+      "mean_mahal": 24.105152130126953,
+      "p95_mahal": 108.42381286621094,
+      "retrieval_top1": 0.9705,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.25,
+      "kappa": 0.3,
+      "worst_mahal": 246389.421875,
+      "mean_mahal": 566.7399291992188,
+      "p95_mahal": 2747.49755859375,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 0,
+      "alpha": 1.25,
+      "kappa": 1.0,
+      "worst_mahal": 73916.8046875,
+      "mean_mahal": 170.02198791503906,
+      "p95_mahal": 824.2493286132812,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.25,
+      "kappa": 3.0,
+      "worst_mahal": 24638.931640625,
+      "mean_mahal": 56.673988342285156,
+      "p95_mahal": 274.749755859375,
+      "retrieval_top1": 0.999,
+      "trF_s": 5.999999523162842
+    },
+    {
+      "seed": 0,
+      "alpha": 1.25,
+      "kappa": 7.0,
+      "worst_mahal": 10559.546875,
+      "mean_mahal": 24.28885269165039,
+      "p95_mahal": 117.7499008178711,
+      "retrieval_top1": 0.9765,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.5,
+      "kappa": 0.3,
+      "worst_mahal": 190851.296875,
+      "mean_mahal": 602.2618408203125,
+      "p95_mahal": 3066.774169921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 0,
+      "alpha": 1.5,
+      "kappa": 1.0,
+      "worst_mahal": 57255.375,
+      "mean_mahal": 180.6785430908203,
+      "p95_mahal": 920.0321044921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 0,
+      "alpha": 1.5,
+      "kappa": 3.0,
+      "worst_mahal": 19085.1328125,
+      "mean_mahal": 60.2261848449707,
+      "p95_mahal": 306.6773681640625,
+      "retrieval_top1": 0.999,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 0,
+      "alpha": 1.5,
+      "kappa": 7.0,
+      "worst_mahal": 8179.3447265625,
+      "mean_mahal": 25.811222076416016,
+      "p95_mahal": 131.43316650390625,
+      "retrieval_top1": 0.9815,
+      "trF_s": 13.999999046325684
+    },
+    {
+      "seed": 1,
+      "alpha": 0.0,
+      "kappa": 0.3,
+      "worst_mahal": 1226435.625,
+      "mean_mahal": 882.20703125,
+      "p95_mahal": 2236.482666015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 1,
+      "alpha": 0.0,
+      "kappa": 1.0,
+      "worst_mahal": 367930.71875,
+      "mean_mahal": 264.662109375,
+      "p95_mahal": 670.9447631835938,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 1,
+      "alpha": 0.0,
+      "kappa": 3.0,
+      "worst_mahal": 122643.6015625,
+      "mean_mahal": 88.22069549560547,
+      "p95_mahal": 223.6482391357422,
+      "retrieval_top1": 0.999,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.0,
+      "kappa": 7.0,
+      "worst_mahal": 52561.54296875,
+      "mean_mahal": 37.808868408203125,
+      "p95_mahal": 95.84925079345703,
+      "retrieval_top1": 0.969,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.25,
+      "kappa": 0.3,
+      "worst_mahal": 869837.0,
+      "mean_mahal": 737.1832885742188,
+      "p95_mahal": 2245.969482421875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 1,
+      "alpha": 0.25,
+      "kappa": 1.0,
+      "worst_mahal": 260951.140625,
+      "mean_mahal": 221.15499877929688,
+      "p95_mahal": 673.791015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.25,
+      "kappa": 3.0,
+      "worst_mahal": 86983.7109375,
+      "mean_mahal": 73.71833038330078,
+      "p95_mahal": 224.59698486328125,
+      "retrieval_top1": 0.9985,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.25,
+      "kappa": 7.0,
+      "worst_mahal": 37278.72265625,
+      "mean_mahal": 31.59356689453125,
+      "p95_mahal": 96.25585174560547,
+      "retrieval_top1": 0.968,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.5,
+      "kappa": 0.3,
+      "worst_mahal": 621886.875,
+      "mean_mahal": 643.0039672851562,
+      "p95_mahal": 2294.9619140625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000834465027
+    },
+    {
+      "seed": 1,
+      "alpha": 0.5,
+      "kappa": 1.0,
+      "worst_mahal": 186566.03125,
+      "mean_mahal": 192.90121459960938,
+      "p95_mahal": 688.48876953125,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.000000476837158
+    },
+    {
+      "seed": 1,
+      "alpha": 0.5,
+      "kappa": 3.0,
+      "worst_mahal": 62188.671875,
+      "mean_mahal": 64.3004150390625,
+      "p95_mahal": 229.49623107910156,
+      "retrieval_top1": 0.998,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 1,
+      "alpha": 0.5,
+      "kappa": 7.0,
+      "worst_mahal": 26652.2890625,
+      "mean_mahal": 27.557315826416016,
+      "p95_mahal": 98.35552978515625,
+      "retrieval_top1": 0.9695,
+      "trF_s": 14.000001907348633
+    },
+    {
+      "seed": 1,
+      "alpha": 0.75,
+      "kappa": 0.3,
+      "worst_mahal": 449135.125,
+      "mean_mahal": 587.09033203125,
+      "p95_mahal": 2384.1533203125,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 1,
+      "alpha": 0.75,
+      "kappa": 1.0,
+      "worst_mahal": 134740.609375,
+      "mean_mahal": 176.1271514892578,
+      "p95_mahal": 715.2461547851562,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 1,
+      "alpha": 0.75,
+      "kappa": 3.0,
+      "worst_mahal": 44913.53125,
+      "mean_mahal": 58.709041595458984,
+      "p95_mahal": 238.41537475585938,
+      "retrieval_top1": 0.998,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 1,
+      "alpha": 0.75,
+      "kappa": 7.0,
+      "worst_mahal": 19248.6640625,
+      "mean_mahal": 25.1610164642334,
+      "p95_mahal": 102.17802429199219,
+      "retrieval_top1": 0.973,
+      "trF_s": 14.000000953674316
+    },
+    {
+      "seed": 1,
+      "alpha": 1.0,
+      "kappa": 0.3,
+      "worst_mahal": 329050.96875,
+      "mean_mahal": 562.4535522460938,
+      "p95_mahal": 2529.888916015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 1,
+      "alpha": 1.0,
+      "kappa": 1.0,
+      "worst_mahal": 98715.296875,
+      "mean_mahal": 168.73606872558594,
+      "p95_mahal": 758.9666137695312,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.0,
+      "kappa": 3.0,
+      "worst_mahal": 32905.09765625,
+      "mean_mahal": 56.24535369873047,
+      "p95_mahal": 252.98890686035156,
+      "retrieval_top1": 0.998,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.0,
+      "kappa": 7.0,
+      "worst_mahal": 14102.1787109375,
+      "mean_mahal": 24.105152130126953,
+      "p95_mahal": 108.42381286621094,
+      "retrieval_top1": 0.9765,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.25,
+      "kappa": 0.3,
+      "worst_mahal": 246389.421875,
+      "mean_mahal": 566.7399291992188,
+      "p95_mahal": 2747.49755859375,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 1,
+      "alpha": 1.25,
+      "kappa": 1.0,
+      "worst_mahal": 73916.8046875,
+      "mean_mahal": 170.02198791503906,
+      "p95_mahal": 824.2493286132812,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.25,
+      "kappa": 3.0,
+      "worst_mahal": 24638.931640625,
+      "mean_mahal": 56.673988342285156,
+      "p95_mahal": 274.749755859375,
+      "retrieval_top1": 0.9985,
+      "trF_s": 5.999999523162842
+    },
+    {
+      "seed": 1,
+      "alpha": 1.25,
+      "kappa": 7.0,
+      "worst_mahal": 10559.546875,
+      "mean_mahal": 24.28885269165039,
+      "p95_mahal": 117.7499008178711,
+      "retrieval_top1": 0.9805,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.5,
+      "kappa": 0.3,
+      "worst_mahal": 190851.296875,
+      "mean_mahal": 602.2618408203125,
+      "p95_mahal": 3066.774169921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 1,
+      "alpha": 1.5,
+      "kappa": 1.0,
+      "worst_mahal": 57255.375,
+      "mean_mahal": 180.6785430908203,
+      "p95_mahal": 920.0321044921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 1,
+      "alpha": 1.5,
+      "kappa": 3.0,
+      "worst_mahal": 19085.1328125,
+      "mean_mahal": 60.2261848449707,
+      "p95_mahal": 306.6773681640625,
+      "retrieval_top1": 0.9985,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 1,
+      "alpha": 1.5,
+      "kappa": 7.0,
+      "worst_mahal": 8179.3447265625,
+      "mean_mahal": 25.811222076416016,
+      "p95_mahal": 131.43316650390625,
+      "retrieval_top1": 0.985,
+      "trF_s": 13.999999046325684
+    },
+    {
+      "seed": 2,
+      "alpha": 0.0,
+      "kappa": 0.3,
+      "worst_mahal": 1226435.625,
+      "mean_mahal": 882.20703125,
+      "p95_mahal": 2236.482666015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 2,
+      "alpha": 0.0,
+      "kappa": 1.0,
+      "worst_mahal": 367930.71875,
+      "mean_mahal": 264.662109375,
+      "p95_mahal": 670.9447631835938,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 2,
+      "alpha": 0.0,
+      "kappa": 3.0,
+      "worst_mahal": 122643.6015625,
+      "mean_mahal": 88.22069549560547,
+      "p95_mahal": 223.6482391357422,
+      "retrieval_top1": 0.997,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.0,
+      "kappa": 7.0,
+      "worst_mahal": 52561.54296875,
+      "mean_mahal": 37.808868408203125,
+      "p95_mahal": 95.84925079345703,
+      "retrieval_top1": 0.9665,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.25,
+      "kappa": 0.3,
+      "worst_mahal": 869837.0,
+      "mean_mahal": 737.1832885742188,
+      "p95_mahal": 2245.969482421875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 2,
+      "alpha": 0.25,
+      "kappa": 1.0,
+      "worst_mahal": 260951.140625,
+      "mean_mahal": 221.15499877929688,
+      "p95_mahal": 673.791015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.25,
+      "kappa": 3.0,
+      "worst_mahal": 86983.7109375,
+      "mean_mahal": 73.71833038330078,
+      "p95_mahal": 224.59698486328125,
+      "retrieval_top1": 0.997,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.25,
+      "kappa": 7.0,
+      "worst_mahal": 37278.72265625,
+      "mean_mahal": 31.59356689453125,
+      "p95_mahal": 96.25585174560547,
+      "retrieval_top1": 0.9645,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.5,
+      "kappa": 0.3,
+      "worst_mahal": 621886.875,
+      "mean_mahal": 643.0039672851562,
+      "p95_mahal": 2294.9619140625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000834465027
+    },
+    {
+      "seed": 2,
+      "alpha": 0.5,
+      "kappa": 1.0,
+      "worst_mahal": 186566.03125,
+      "mean_mahal": 192.90121459960938,
+      "p95_mahal": 688.48876953125,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.000000476837158
+    },
+    {
+      "seed": 2,
+      "alpha": 0.5,
+      "kappa": 3.0,
+      "worst_mahal": 62188.671875,
+      "mean_mahal": 64.3004150390625,
+      "p95_mahal": 229.49623107910156,
+      "retrieval_top1": 0.9965,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 2,
+      "alpha": 0.5,
+      "kappa": 7.0,
+      "worst_mahal": 26652.2890625,
+      "mean_mahal": 27.557315826416016,
+      "p95_mahal": 98.35552978515625,
+      "retrieval_top1": 0.9645,
+      "trF_s": 14.000001907348633
+    },
+    {
+      "seed": 2,
+      "alpha": 0.75,
+      "kappa": 0.3,
+      "worst_mahal": 449135.125,
+      "mean_mahal": 587.09033203125,
+      "p95_mahal": 2384.1533203125,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 2,
+      "alpha": 0.75,
+      "kappa": 1.0,
+      "worst_mahal": 134740.609375,
+      "mean_mahal": 176.1271514892578,
+      "p95_mahal": 715.2461547851562,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 2,
+      "alpha": 0.75,
+      "kappa": 3.0,
+      "worst_mahal": 44913.53125,
+      "mean_mahal": 58.709041595458984,
+      "p95_mahal": 238.41537475585938,
+      "retrieval_top1": 0.997,
+      "trF_s": 6.000000476837158
+    },
+    {
+      "seed": 2,
+      "alpha": 0.75,
+      "kappa": 7.0,
+      "worst_mahal": 19248.6640625,
+      "mean_mahal": 25.1610164642334,
+      "p95_mahal": 102.17802429199219,
+      "retrieval_top1": 0.967,
+      "trF_s": 14.000000953674316
+    },
+    {
+      "seed": 2,
+      "alpha": 1.0,
+      "kappa": 0.3,
+      "worst_mahal": 329050.96875,
+      "mean_mahal": 562.4535522460938,
+      "p95_mahal": 2529.888916015625,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 2,
+      "alpha": 1.0,
+      "kappa": 1.0,
+      "worst_mahal": 98715.296875,
+      "mean_mahal": 168.73606872558594,
+      "p95_mahal": 758.9666137695312,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.0,
+      "kappa": 3.0,
+      "worst_mahal": 32905.09765625,
+      "mean_mahal": 56.24535369873047,
+      "p95_mahal": 252.98890686035156,
+      "retrieval_top1": 0.997,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.0,
+      "kappa": 7.0,
+      "worst_mahal": 14102.1787109375,
+      "mean_mahal": 24.105152130126953,
+      "p95_mahal": 108.42381286621094,
+      "retrieval_top1": 0.9715,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.25,
+      "kappa": 0.3,
+      "worst_mahal": 246389.421875,
+      "mean_mahal": 566.7399291992188,
+      "p95_mahal": 2747.49755859375,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.6000000238418579
+    },
+    {
+      "seed": 2,
+      "alpha": 1.25,
+      "kappa": 1.0,
+      "worst_mahal": 73916.8046875,
+      "mean_mahal": 170.02198791503906,
+      "p95_mahal": 824.2493286132812,
+      "retrieval_top1": 1.0,
+      "trF_s": 2.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.25,
+      "kappa": 3.0,
+      "worst_mahal": 24638.931640625,
+      "mean_mahal": 56.673988342285156,
+      "p95_mahal": 274.749755859375,
+      "retrieval_top1": 0.997,
+      "trF_s": 5.999999523162842
+    },
+    {
+      "seed": 2,
+      "alpha": 1.25,
+      "kappa": 7.0,
+      "worst_mahal": 10559.546875,
+      "mean_mahal": 24.28885269165039,
+      "p95_mahal": 117.7499008178711,
+      "retrieval_top1": 0.977,
+      "trF_s": 14.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.5,
+      "kappa": 0.3,
+      "worst_mahal": 190851.296875,
+      "mean_mahal": 602.2618408203125,
+      "p95_mahal": 3066.774169921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 0.5999999642372131
+    },
+    {
+      "seed": 2,
+      "alpha": 1.5,
+      "kappa": 1.0,
+      "worst_mahal": 57255.375,
+      "mean_mahal": 180.6785430908203,
+      "p95_mahal": 920.0321044921875,
+      "retrieval_top1": 1.0,
+      "trF_s": 1.9999998807907104
+    },
+    {
+      "seed": 2,
+      "alpha": 1.5,
+      "kappa": 3.0,
+      "worst_mahal": 19085.1328125,
+      "mean_mahal": 60.2261848449707,
+      "p95_mahal": 306.6773681640625,
+      "retrieval_top1": 0.997,
+      "trF_s": 6.0
+    },
+    {
+      "seed": 2,
+      "alpha": 1.5,
+      "kappa": 7.0,
+      "worst_mahal": 8179.3447265625,
+      "mean_mahal": 25.811222076416016,
+      "p95_mahal": 131.43316650390625,
+      "retrieval_top1": 0.981,
+      "trF_s": 13.999999046325684
+    }
+  ],
+  "elapsed_s": 1758.1652126312256
+}
