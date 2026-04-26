@@ -9,36 +9,36 @@ from .quotient_release import QuotientRelease,reparam,kl_iso,info_nce
 from .gradient_reversal import grad_reverse
 from .adjacency_builder_v2 import get_layer_block
 
-class WikiC4Stream(IterableDataset):
-    def __init__(self,tok,seq_len,mix=0.8,seed=0,c4_max_lines=200000):
+class WikiTextDS(IterableDataset):
+    _cache=None
+    @classmethod
+    def get_pretok(cls,tok,seq_len,n_samples):
+        if cls._cache is not None:return cls._cache
+        from datasets import load_dataset
+        ds=load_dataset("wikitext","wikitext-103-raw-v1",split="train")
+        out=[]
+        for row in ds:
+            txt=row["text"].strip()
+            if len(txt)<80:continue
+            ids=tok(txt,add_special_tokens=False,truncation=True,max_length=512)["input_ids"]
+            if len(ids)>=seq_len:
+                out.append(ids)
+                if len(out)>=n_samples:break
+        cls._cache=out
+        return out
+    def __init__(self,tok,seq_len,n_samples=200000,seed=0):
         self.tok=tok
         self.seq_len=seq_len
-        self.mix=mix
         self.seed=seed
-        self.c4_max=c4_max_lines
+        self.cache=self.get_pretok(tok,seq_len,n_samples)
     def __iter__(self):
-        from datasets import load_dataset
-        wt=load_dataset("wikitext","wikitext-103-raw-v1",split="train",streaming=True)
-        c4=load_dataset("allenai/c4","en",split="train",streaming=True)
         rng=torch.Generator().manual_seed(self.seed)
-        wt_iter=iter(wt)
-        c4_iter=iter(c4)
-        c4_seen=0
+        N=len(self.cache)
         while True:
-            use_c4=(torch.rand(1,generator=rng).item()>self.mix) and (c4_seen<self.c4_max)
-            try:
-                row=next(c4_iter) if use_c4 else next(wt_iter)
-            except StopIteration:
-                if use_c4: c4_iter=iter(c4)
-                else: wt_iter=iter(wt)
-                continue
-            if use_c4: c4_seen+=1
-            txt=row.get("text","").strip()
-            if len(txt)<80: continue
-            ids=self.tok(txt,add_special_tokens=False,truncation=True,max_length=512)["input_ids"]
-            if len(ids)>=self.seq_len:
-                s=int(torch.randint(0,len(ids)-self.seq_len+1,(1,),generator=rng).item())
-                yield torch.tensor(ids[s:s+self.seq_len],dtype=torch.long)
+            i=int(torch.randint(0,N,(1,),generator=rng).item())
+            ids=self.cache[i]
+            s=int(torch.randint(0,len(ids)-self.seq_len+1,(1,),generator=rng).item())
+            yield torch.tensor(ids[s:s+self.seq_len],dtype=torch.long)
 
 def collate(batch):
     return torch.stack(batch,dim=0)
@@ -64,6 +64,15 @@ class FrozenLM:
             self.model(ids)
         h.remove()
         return cap[0].float()
+    def hidden_and_logits(self,ids):
+        cap=[None]
+        def hk(m,i,o,c=cap):
+            c[0]=(o[0] if isinstance(o,tuple) else o).detach()
+        h=self.blk.register_forward_hook(hk)
+        with torch.no_grad():
+            out=self.model(ids)
+        h.remove()
+        return cap[0].float(),out.logits.float()
     def logits_with_replaced_hidden(self,ids,h_new):
         def inj(m,i,o,hn=h_new):
             oo=o[0] if isinstance(o,tuple) else o
@@ -113,7 +122,7 @@ def main():
         prog=(step-a.warmup)/max(1,a.steps-a.warmup)
         return 0.5*(1+math.cos(math.pi*min(1.0,prog)))
     sched=torch.optim.lr_scheduler.LambdaLR(opt,lr_at)
-    ds=WikiC4Stream(flm.tok,a.seq_len,seed=a.seed)
+    ds=WikiTextDS(flm.tok,a.seq_len,seed=a.seed)
     loader=DataLoader(ds,batch_size=a.batch_size,collate_fn=collate,num_workers=0)
     it=iter(loader)
     t0=time.time()
@@ -123,14 +132,11 @@ def main():
     log_data=[]
     for step in range(a.steps):
         ids=next(it).to(dev)
-        with torch.no_grad():
-            h_clean=flm.hidden_seq(ids)
+        h_clean,logits_clean=flm.hidden_and_logits(ids)
         h_clean=h_clean.requires_grad_(False)
         out=qr(h_clean,sigma_rel=a.sigma_rel,grl=1.0)
         h_hat=out["h_hat"]
         logits_hat=flm.logits_with_replaced_hidden(ids,h_hat)
-        with torch.no_grad():
-            logits_clean=flm.logits_with_replaced_hidden(ids,h_clean)
         T=logits_hat.size(1)
         H=min(a.H_horizon,T)
         lp_clean=F.log_softmax(logits_clean[:,-H:].float(),dim=-1).detach()

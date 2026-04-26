@@ -15,10 +15,10 @@ run_one() {
   python -m two_channel.exp_quotient_release \
     --model openai-community/gpt2 --layer 6 \
     --r $r --beta $b --gamma $g --sigma_rel $s \
-    --steps 100000 --batch_size 128 --lr 2e-4 --H_horizon 16 \
-    --seq_len 64 --warmup 2000 --dtype float32 \
+    --steps 50000 --batch_size 128 --lr 2e-4 --H_horizon 16 \
+    --seq_len 64 --warmup 1000 --dtype float32 \
     --seed $sd --out_dir artifacts/quotient_release \
-    --log_every 1000 --ckpt_every 50000 > logs/${slug}.log 2>&1
+    --log_every 1000 --ckpt_every 25000 > logs/${slug}.log 2>&1
 }
 
 PARALLEL=4
