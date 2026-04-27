@@ -130,7 +130,19 @@ def main():
     slug=f"{a.model.replace('/','_')}_L{a.layer}_r{a.r}_b{a.beta:.0e}_g{a.gamma}_s{a.sigma_rel}_seed{a.seed}"
     log_path=os.path.join(a.out_dir,f"{slug}.log.json")
     log_data=[]
-    for step in range(a.steps):
+    start_step=0
+    import glob as _glob
+    ckpt_files=sorted(_glob.glob(os.path.join(a.out_dir,f"{slug}.step*.pt")),key=lambda p:int(p.rsplit('step',1)[1].rsplit('.pt',1)[0]))
+    if ckpt_files:
+        last=ckpt_files[-1]
+        start_step=int(last.rsplit('step',1)[1].rsplit('.pt',1)[0])
+        qr.load_state_dict(torch.load(last,map_location=dev))
+        for _ in range(start_step):sched.step()
+        if os.path.exists(log_path):
+            try:log_data=json.load(open(log_path))
+            except Exception:log_data=[]
+        print(f"RESUME from {last} at step {start_step}")
+    for step in range(start_step,a.steps):
         ids=next(it).to(dev)
         h_clean,logits_clean=flm.hidden_and_logits(ids)
         h_clean=h_clean.requires_grad_(False)
