@@ -108,26 +108,26 @@ def main():
             d_l2=(q*q).sum(-1,keepdim=True)+cb_l2.unsqueeze(0)-2*cross
             idx=d_l2.argmin(dim=-1)
             correct_l2+=(idx==gt_idx[i:i+bsz]).sum().item()
-        with torch.no_grad():
-            decoded=qr.dec(Z_noisy)
         n_util=200
         ids_util=query_pref[:n_util]
         kls=[];t1=0
         for j in range(n_util):
             ids=ids_util[j].unsqueeze(0).to(dev)
-            h_hat=decoded[j:j+1].unsqueeze(1).expand(-1,1,-1)
-            h_hat_full=torch.zeros((1,a.ctx,d),device=dev)
-            h_hat_full[0,-1,:]=decoded[j]
             cap=[None]
             def hk(m,i,o,c=cap):c[0]=(o[0] if isinstance(o,tuple) else o).detach()
             h_=blk.register_forward_hook(hk)
             with torch.no_grad():o_clean=model(ids)
             h_.remove()
-            H_orig=cap[0].clone()
-            def inj(m,i,o,hn=H_orig.clone()):
+            H_orig=cap[0].float()
+            with torch.no_grad():
+                mu_seq,ls_seq=qr.enc(H_orig)
+                z_seq=mu_seq+torch.randn_like(mu_seq)*(0.5*ls_seq).exp()
+                if sigma_rel>0:
+                    z_seq=z_seq+sigma_rel*torch.randn_like(z_seq)
+                h_hat_seq=qr.dec(z_seq)
+            def inj(m,i,o,hh=h_hat_seq):
                 oo=o[0] if isinstance(o,tuple) else o
-                oo=hn.clone()
-                oo[0,-1,:]=decoded[j].to(oo.dtype)
+                oo=hh.to(oo.dtype)
                 if isinstance(o,tuple):return(oo,)+o[1:]
                 return oo
             h2=blk.register_forward_hook(inj)
