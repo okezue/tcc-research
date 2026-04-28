@@ -12,12 +12,19 @@ class CausalSA(nn.Module):
         self.o=nn.Linear(d,d,bias=False)
         self.drop=drop
     def forward(self,x):
+        import math
         B,T,d=x.shape
         q,k,v=self.qkv(x).chunk(3,dim=-1)
         q=q.view(B,T,self.h,self.dh).transpose(1,2)
         k=k.view(B,T,self.h,self.dh).transpose(1,2)
         v=v.view(B,T,self.h,self.dh).transpose(1,2)
-        y=F.scaled_dot_product_attention(q,k,v,is_causal=True,dropout_p=self.drop if self.training else 0)
+        scores=(q@k.transpose(-2,-1))/math.sqrt(self.dh)
+        mask=torch.triu(torch.ones(T,T,device=scores.device,dtype=torch.bool),1)
+        scores=scores.masked_fill(mask,float('-inf'))
+        attn=F.softmax(scores,dim=-1)
+        if self.drop>0 and self.training:
+            attn=F.dropout(attn,p=self.drop)
+        y=attn@v
         y=y.transpose(1,2).contiguous().view(B,T,d)
         return self.o(y)
 
