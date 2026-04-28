@@ -39,47 +39,62 @@ def hidden_at_layer_baseline(model,ids,layer):
     h.remove()
     return cap[0]
 
+def smt_continue_from(model,u,v,start_layer):
+    for L in model.layers[start_layer:]:
+        u,v=L(u,v)
+    return model.head(model.lnf(u))
+
+def baseline_continue_from(model,x,start_layer):
+    for L in model.layers[start_layer:]:
+        x=L(x)
+    return model.head(model.lnf(x))
+
 def compute_F_diag(model,ids_list,layer,is_smt,n_cal=300):
+    dev=next(model.parameters()).device
     d=None
     F_diag=None
     cnt=0
     for ids in tqdm(ids_list[:n_cal],desc="F_diag"):
-        ids=ids.unsqueeze(0).to(next(model.parameters()).device)
+        ids=ids.unsqueeze(0).to(dev)
         if is_smt:
-            logits,u_l,v_l=model(ids,return_uv=True)
-            h=torch.cat([u_l[layer],v_l[layer]],dim=-1)
+            with torch.no_grad():
+                B,T=ids.shape
+                x=model.tok(ids)+model.pos(torch.arange(T,device=dev))[None]
+                u,v=x[...,:model.r],x[...,model.r:]
+                for i in range(layer):
+                    u,v=model.layers[i](u,v)
+            r=model.r;m=model.m
+            h_var=torch.cat([u[0,-1,:],v[0,-1,:]],dim=0).clone().detach().requires_grad_(True)
+            u_new=u.clone();v_new=v.clone()
+            u_new[0,-1,:]=h_var[:r]
+            v_new[0,-1,:]=h_var[r:]
+            logits=smt_continue_from(model,u_new,v_new,layer)
         else:
             cap=[None]
-            blk=model.layers[layer]
-            def hk(m,i,o,c=cap):c[0]=o
-            hh=blk.register_forward_hook(hk)
-            logits=model(ids)
-            hh.remove()
-            h=cap[0]
+            blk=model.layers[layer-1] if layer>0 else None
+            with torch.no_grad():
+                B,T=ids.shape
+                x=model.tok(ids)+model.pos(torch.arange(T,device=dev))[None]
+                for i in range(layer):
+                    x=model.layers[i](x)
+            h_var=x[0,-1,:].clone().detach().requires_grad_(True)
+            x_new=x.clone()
+            x_new[0,-1,:]=h_var
+            logits=baseline_continue_from(model,x_new,layer)
         if d is None:
-            d=h.shape[-1]
-            F_diag=torch.zeros(d,dtype=torch.float64,device=h.device)
-        h_var=h[0,-1,:].clone().detach().requires_grad_(True)
-        if is_smt:
-            r=u_l[0].shape[-1]
-            u_inj=h_var[:r].unsqueeze(0).unsqueeze(0)
-            v_inj=h_var[r:].unsqueeze(0).unsqueeze(0)
-            u_l[layer][:,-1:,:r if False else u_l[layer].size(-1)]=0
-        h_var2=h[:,-1,:].clone()
-        h_var2[0]=h_var
+            d=h_var.shape[-1]
+            F_diag=torch.zeros(d,dtype=torch.float64,device=dev)
         last_logits=logits[0,-1,:].float()
         p=F.softmax(last_logits,dim=-1).detach()
+        lp=F.log_softmax(last_logits,dim=-1)
         topv=torch.topk(p,5).indices.tolist()
-        gd=torch.zeros(d,dtype=torch.float64)
-        for v in topv:
-            try:
-                g=torch.autograd.grad(F.log_softmax(last_logits,dim=-1)[v],h_var2,retain_graph=True)[0]
-                if g is None:continue
-                gv=g[0].float().detach().cpu().double()
-                gd+=p[v].item()*gv.pow(2)
-            except RuntimeError:
-                continue
-        F_diag+=gd.to(F_diag.device)
+        gd=torch.zeros(d,dtype=torch.float64,device=dev)
+        for vid in topv:
+            g=torch.autograd.grad(lp[vid],h_var,retain_graph=True)[0]
+            if g is None:continue
+            gv=g.float().detach().double()
+            gd+=p[vid].item()*gv.pow(2)
+        F_diag+=gd
         cnt+=1
     return (F_diag/max(cnt,1)).float()
 
