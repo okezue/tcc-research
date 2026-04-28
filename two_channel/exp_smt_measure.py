@@ -110,8 +110,8 @@ def compute_S_diag(model,ids_list,layer,is_smt,n_pairs=500):
     return S_diag,H
 
 def G_metrics(F_diag,S_diag,k=128):
-    F_diag=F_diag.clamp(min=1e-8).double()
-    S_diag=S_diag.clamp(min=1e-8).double()
+    F_diag=F_diag.detach().cpu().clamp(min=1e-8).double()
+    S_diag=S_diag.detach().cpu().clamp(min=1e-8).double()
     rho_F=F_diag/F_diag.sum()
     rho_S=S_diag/S_diag.sum()
     G_Mah_classical=F_diag.sum()*S_diag.sum()/(F_diag.sqrt()*S_diag.sqrt()).sum().pow(2)
