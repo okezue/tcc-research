@@ -1,0 +1,11 @@
+{
+  "target_model": "openai-community/gpt2",
+  "target_layer": 6,
+  "defense": "clean",
+  "sigma": 0.0,
+  "seq_len": 32,
+  "n_test": 500,
+  "beam": 1,
+  "exact_match": 0.94,
+  "token_acc": 0.9980625
+}
