@@ -4,6 +4,10 @@ Code and experimental results for the privacy of hidden-state release in decoder
 
 The repository supports two paired research questions: (1) given a fixed pretrained model, how should a defender add Gaussian noise to a released activation so that a Bayes-optimal attacker cannot recover the prompt while next-token distribution is preserved; and (2) is the high-$G_{\mathrm{Mah}}$ regime architecturally reachable when (1) bottoms out, and if so, how does it scale.
 
+![The empty middle](figures/empty_middle.png)
+
+*Every Gaussian release cell across the 5-model 32-layer sweep, plotted in (utility, privacy) space. The shaded box is the moderate-both region (top-1 agreement ≥ 0.5, worst-attacker top-1 ≤ 0.5); zero Gaussian cells land inside it. The diagonal-Fisher mechanism rides the privacy edge but cannot enter. A split-memory transformer trained from scratch (orange stars at three probe layers of the same model) sits inside the box, the first existence proof that the moderate-both region is reachable from outside the Gaussian release class.*
+
 ## Headline results
 
 - **Closed-form optimal defense against an adaptive attacker.** The Mahalanobis-optimal noise covariance is $\Sigma^\star_{\mathrm{Mah}} = (\kappa/\mathrm{tr}(C^{1/2}))\, F_\lambda^{-1/2} C^{1/2} F_\lambda^{-1/2}$ where $C = F_\lambda^{1/2} \Sigma_\delta F_\lambda^{1/2}$, $F$ is the hidden-state Fisher, and $\Sigma_\delta$ is the margin-direction covariance. Derived as a trace minimization with a scalar utility budget.
