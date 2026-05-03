@@ -108,7 +108,7 @@ If you are caching or transmitting hidden-state activations from a decoder-only 
 
 ## Supplementary materials
 
-The following are too large for git and live in the supplementary zip uploaded alongside the OpenReview submission:
+The following are too large to track in git and are released as a supplementary zip alongside the paper:
 
 - 16 SMT scaling-sweep checkpoints (30M / 90M / 300M / 1B SMT and matched baselines, plus 90M seed and step variants), ≈17 GB total.
 - 8 SMT 90M-tier checkpoints (the four 12-layer architectures plus their `step10000` snapshots), ≈2.9 GB.
