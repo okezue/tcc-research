@@ -4,10 +4,6 @@ Code and experimental results for the privacy of hidden-state release in decoder
 
 The repository supports two paired research questions: (1) given a fixed pretrained model, how should a defender add Gaussian noise to a released activation so that a Bayes-optimal attacker cannot recover the prompt while next-token distribution is preserved; and (2) is the high-$G_{\mathrm{Mah}}$ regime architecturally reachable when (1) bottoms out, and if so, how does it scale.
 
-![The empty middle](figures/empty_middle.png)
-
-*Every Gaussian release cell across the 5-model 32-layer sweep, plotted in (utility, privacy) space. The shaded box is the moderate-both region (top-1 agreement ≥ 0.5, worst-attacker top-1 ≤ 0.5); zero Gaussian cells land inside it. The diagonal-Fisher mechanism rides the privacy edge but cannot enter. A split-memory transformer trained from scratch (orange stars at three probe layers of the same model) sits inside the box, the first existence proof that the moderate-both region is reachable from outside the Gaussian release class.*
-
 ## Headline results
 
 - **Closed-form optimal defense against an adaptive attacker.** The Mahalanobis-optimal noise covariance is $\Sigma^\star_{\mathrm{Mah}} = (\kappa/\mathrm{tr}(C^{1/2}))\, F_\lambda^{-1/2} C^{1/2} F_\lambda^{-1/2}$ where $C = F_\lambda^{1/2} \Sigma_\delta F_\lambda^{1/2}$, $F$ is the hidden-state Fisher, and $\Sigma_\delta$ is the margin-direction covariance. Derived as a trace minimization with a scalar utility budget.
@@ -15,6 +11,9 @@ The repository supports two paired research questions: (1) given a fixed pretrai
 - **The 13× Pareto defense is a Euclidean-attacker artifact.** Under plain $\ell_2$ retrieval, generalized-eigen noise on the top-128 eigenvectors of $(\Sigma_\delta, F)$ suppresses attack success by 13× on Mistral-7B. Under the adaptive Mahalanobis attacker the noise lives entirely in a rank-128 subspace the attacker can project out, and attack success goes back to 100% at every noise level.
 - **A simple mechanism that survives.** $\Sigma_{\mathrm{diag}} = \sigma^2\,\mathrm{diag}(1/F_{ii})$ — diagonal, full-rank, coordinate-weighted by inverse Fisher — is the only Gaussian release that achieves worst-over-attackers top-1 ≤ 0.001 at $\sigma = 5$ across every (model, layer) point we tested. It is also the unique diagonal covariance with equal per-coordinate first-order KL cost.
 - **Empty middle.** Across 1,536 (mechanism, $\sigma$, model, layer) cells, zero achieve both t1-agreement ≥ 0.5 with the clean model and worst-attacker top-1 ≤ 0.5.
+
+<p align="center"><img src="figures/empty_middle.png" width="75%"></p>
+
 - **Sequence inverter survives the empty middle.** A 57M-parameter full-trajectory inverter recovers 94% of clean GPT-2 prefixes at exact match, drops to 22.6% under isotropic at $\sigma = 5$, and to 0% under $\Sigma_{\mathrm{diag}}$ at the same $\sigma$. Token accuracy under $\Sigma_{\mathrm{diag}}$ is 1.1%, chance level for a 50,257-token vocabulary.
 - **Constructive existence proof: the Split-Memory Transformer.** A 12-layer, 90M-parameter SMT trained from scratch with the output projection reading only from a narrow predictive trunk reaches $G_{\mathrm{Mah}} \in [20, 33]$ across three probe layers, against a same-budget GPT baseline at 1.1–1.3. Pretrained models top out at 9.3.
 - **Fixed-token SMT scaling sweep, 30M to 1B parameters.** SMT maintains a 6–24× $G_{\mathrm{Mah}}$ advantage over matched-$d$ GPT baselines across a 33× param range. Baselines remain flat at $G_{\mathrm{Mah}} \approx 1.3$. The architectural gain is mediated by the Fisher–margin coupling $q_B$, which collapses from 0.78 to 0.07 across the SMT sweep but stays at 0.75 ± 0.04 for baselines. The fixed-token LM-loss penalty widens with scale (+1.18 to +2.15 nats), a fixed-compute observation that does not constrain the long-run penalty under data-optimal training.
